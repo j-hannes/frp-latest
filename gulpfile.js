@@ -7,6 +7,7 @@ var gutil = require('gulp-util')
 var watchify = require('watchify')
 var browserify = require('browserify')
 var source = require('vinyl-source-stream')
+var buffer = require('vinyl-buffer')
 
 var onError = function (err) {
   gutil.beep()
@@ -21,9 +22,10 @@ var bundler = watchify(browserify('./dev/js/app.js', watchify.args))
 
 var bundle = function() {
   return bundler.bundle()
-    .on('error', onError)
     .pipe(source('app.js'))
+    .pipe(buffer())
     .pipe(gulp.dest('build'))
+    .on('error', onError)
 }
 
 bundler.on('update', bundle)
