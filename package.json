@@ -7,6 +7,7 @@
     "gulp-stylus": "^2.0.0",
     "gulp-util": "^3.0.3",
     "gulp-watch": "^4.1.1",
+    "rx": "^2.3.25",
     "vinyl-source-stream": "^1.0.0",
     "watchify": "^2.3.0"
   }
