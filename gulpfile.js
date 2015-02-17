@@ -10,19 +10,24 @@ var source = require('vinyl-source-stream')
 
 var onError = function (err) {
   gutil.beep()
-  gutil.log(err)
+  gutil.log(gutil.colors.red('Error:\n ' + err.message))
+}
+
+var onTime = function(time) {
+  gutil.log(gutil.colors.green('JS generated in ' + time + 'ms.'))
 }
 
 var bundler = watchify(browserify('./dev/js/app.js', watchify.args))
 
 var bundle = function() {
   return bundler.bundle()
-    .pipe(plumber({errorHandler: onError}))
+    .on('error', onError)
     .pipe(source('app.js'))
     .pipe(gulp.dest('build'))
 }
 
 bundler.on('update', bundle)
+bundler.on('time', onTime)
 
 var style = function() {
   gulp.src('dev/css/main.styl')
